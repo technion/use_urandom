@@ -17,12 +17,13 @@ end
 
 module UseUrandom
   URANDOM = "/dev/urandom"
+
   def self.urandom(n)
-    fh = File.open URANDOM, 'rb'
+    device = ($urandom_file_test.nil?) ? URANDOM : $urandom_file_test
+    fh = File.open device, 'rb'
     raise "Invalid urandom file" unless (fh.stat.uid == 0 && fh.stat.gid == 0)
     data = fh.read(n)
     raise "Not enough data read" unless data.size == n
     data
-
   end
 end
