@@ -6,6 +6,6 @@ class UseUrandomTest < Minitest::Test
   end
 
   def test_it_does_something_useful
-    assert UseUrandom::gen_random(10)
+    assert UseUrandom::urandom(10)
   end
 end
