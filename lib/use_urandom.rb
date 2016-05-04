@@ -1,6 +1,9 @@
 require "use_urandom/version"
 
 module SecureRandom
+  # A constant for the file path used
+
+  URANDOM = "/dev/urandom"
   # Hooks SecureRandom's self.gen_random
   class << self
     alias_method :original_gen_random, :gen_random
@@ -18,12 +21,11 @@ module SecureRandom
 end
 
 module UseUrandom
-  URANDOM = "/dev/urandom"
 
   # Reads 'n' bytes from URANDOm
   def self.urandom(n)
     # Facilitates testing
-    device = ($urandom_file_test.nil?) ? URANDOM : $urandom_file_test
+    device = ($urandom_file_test.nil?) ? SecureRandom::URANDOM : $urandom_file_test
     fh = File.open device, 'rb'
     # Sanity test - owned by root
     raise "Invalid urandom file" unless (fh.stat.uid == 0 && fh.stat.chardev?)
