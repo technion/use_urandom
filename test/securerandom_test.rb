@@ -17,6 +17,6 @@ class SecureRandomTest < Minitest::Test
   def test_other_random
     # Funcrions we haven't touched - ensure they still work
     assert SecureRandom.urlsafe_base64
-    assert SecureRandom.random_numer(100)
+    assert SecureRandom.random_number(100)
   end
 end

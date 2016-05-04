@@ -1,13 +1,23 @@
 require 'test_helper'
+require 'minitest/stub_const'
 
-class MissingUrandomTest < Minitest::Test
+class InvalidUrandomTest < Minitest::Test
   def test_cannot_open
     # Exception test
-    $urandom_file_test = "missingfile"
-    assert_raises Errno::ENOENT do
-      ::UseUrandom::urandom(10)
+    SecureRandom.stub_const(:URANDOM, "missingfile") do
+      assert_raises Errno::ENOENT do
+        ::UseUrandom.urandom(10)
+      end
     end
-    $urandom_file_test = nil
+  end
+  def test__open
+    # Exception test - not character device
+    SecureRandom.stub_const(:URANDOM, "/etc/passwd") do
+      out, err = capture_io do
+        ::SecureRandom.gen_random(10)
+      end
+      assert_equal "Using original SecureRandom\n", err
+    end
   end
 end
 

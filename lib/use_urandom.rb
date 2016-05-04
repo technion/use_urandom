@@ -10,10 +10,10 @@ module SecureRandom
 
     def gen_random(n)
       begin
-        UseUrandom::urandom(n)
+        UseUrandom.urandom(n)
       rescue
         # Fallback code - UseRandom raises exceptions on any problem
-        warn "Using original"
+        warn "Using original SecureRandom"
         original_gen_random(n)
       end
     end
@@ -25,8 +25,7 @@ module UseUrandom
   # Reads 'n' bytes from URANDOm
   def self.urandom(n)
     # Facilitates testing
-    device = ($urandom_file_test.nil?) ? SecureRandom::URANDOM : $urandom_file_test
-    fh = File.open device, 'rb'
+    fh = File.open SecureRandom::URANDOM, 'rb'
     # Sanity test - owned by root
     raise "Invalid urandom file" unless (fh.stat.uid == 0 && fh.stat.chardev?)
     data = fh.read(n)
