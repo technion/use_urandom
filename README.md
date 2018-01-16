@@ -2,6 +2,14 @@
 Turns out, Ruby's SecureRandom makes some poor design decisions.
 This gem monkey patches SecureRandom to use /dev/urandom.
 
+# UPDATE
+
+This Gem is largely pointless now that modern versions of Ruby use a secure entry source.
+
+See this bug: https://bugs.ruby-lang.org/issues/9569
+
+
+
 ## FAQ
 ### Why write this and what is wrong with SecureRandom?
 There are a lot of material involved in answering this, but the best starting point is [this HN thread, from which this gem was inspired](https://news.ycombinator.com/item?id=11624890)
